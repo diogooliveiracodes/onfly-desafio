@@ -22,13 +22,23 @@ services:
             - '8000:8000'
         command: >
             sh -c "
+                php artisan serve --host=0.0.0.0 --port=8000
+            "
+
+    migrate:
+        build: ./backend
+        working_dir: /application
+        volumes:
+            - './backend:/application'
+        depends_on:
+            - mysql
+        command: >
+            sh -c "
                 if [ ! -f .env ]; then cp .env.example .env; fi &&
                 composer install &&
                 php artisan key:generate &&
-                php artisan migrate --seed &&
-                php artisan serve --host=0.0.0.0 --port=8000
+                php artisan migrate:fresh --seed
             "
-            
     frontend:
         build: ./frontend
         working_dir: /application

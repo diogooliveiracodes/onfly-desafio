@@ -12,22 +12,22 @@ class AuthController extends Controller
 {
     /**
      * Summary of login
-     * @param \App\Http\Requests\LoginRequest $request
-     * @return string
+     * @param LoginRequest $request
+     * @return Response
      */
     public function login(LoginRequest $request): Response
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->input('email'))->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->input('password'), $user->password)) {
 
             return response([
                 'message' => 'The provided credentials are incorrect.',
-            ],  ResponseAlias::HTTP_UNAUTHORIZED);
+            ], ResponseAlias::HTTP_UNAUTHORIZED);
         }
 
         return response([
-            'token' => $user->createToken($request->device_name)->plainTextToken,
-        ],  ResponseAlias::HTTP_OK);
+            'token' => $user->createToken($request->input('device_name'))->plainTextToken,
+        ], ResponseAlias::HTTP_OK);
     }
 }

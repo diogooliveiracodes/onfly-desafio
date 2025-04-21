@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 
-class UpdateTravelRequestRequest extends BaseFormRequest
+class UpdateTravelRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

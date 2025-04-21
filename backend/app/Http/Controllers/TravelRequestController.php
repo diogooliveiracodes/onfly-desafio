@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use App\Repositories\TravelRequestRepository;
 use App\Http\Requests\ChangeStatusTravelRequest;
-use App\Http\Requests\StoreTravelRequestRequest;
-use App\Http\Requests\UpdateTravelRequestRequest;
+use App\Http\Requests\StoreTravelRequest;
+use App\Http\Requests\UpdateTravelRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -42,10 +42,10 @@ class TravelRequestController extends Controller
     }
 
     /**
-     * @param StoreTravelRequestRequest $request
+     * @param StoreTravelRequest $request
      * @return Response
      */
-    public function store(StoreTravelRequestRequest $request): Response
+    public function store(StoreTravelRequest $request): Response
     {
         try {
 
@@ -88,11 +88,11 @@ class TravelRequestController extends Controller
     }
 
     /**
-     * @param UpdateTravelRequestRequest $request
+     * @param UpdateTravelRequest $request
      * @param TravelRequest $travelRequest
      * @return Response
      */
-    public function update(UpdateTravelRequestRequest $request, TravelRequest $travelRequest): Response
+    public function update(UpdateTravelRequest $request, TravelRequest $travelRequest): Response
     {
         try {
             Gate::authorize('update', $travelRequest);

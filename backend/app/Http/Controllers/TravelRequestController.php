@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\TravelRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use App\Repositories\TravelRequestRepository;
 use App\Http\Requests\ChangeStatusTravelRequest;
 use App\Http\Requests\StoreTravelRequestRequest;
 use App\Http\Requests\UpdateTravelRequestRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class TravelRequestController extends Controller
@@ -18,9 +20,7 @@ class TravelRequestController extends Controller
      */
     public function __construct(
         protected TravelRequestRepository $travelRequestRepository
-    )
-    {
-    }
+    ) {}
 
     /**
      * @return Response
@@ -57,6 +57,32 @@ class TravelRequestController extends Controller
 
             return response([
                 'error' => 'Erro ao criar pedido.',
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param TravelRequest $travelRequest
+     * @return Response
+     */
+    public function show(TravelRequest $travelRequest): Response
+    {
+        try {
+            Gate::authorize('view', $travelRequest);
+
+            return response([
+                'travelRequest' => $travelRequest,
+            ], ResponseAlias::HTTP_OK);
+        } catch (AuthorizationException $e) {
+            
+            return response([
+                'error' => 'Você não tem permissão para visualizar este pedido.',
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        } catch (\Throwable $e) {
+            Log::error('Erro ao listar pedido: ' . $e->getMessage());
+
+            return response([
+                'error' => 'Erro ao listar pedido.',
             ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -23,4 +23,10 @@ class TravelRequest extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function isProcessed(): bool
+    {
+        return $this->status !== TravelStatus::SOLICITADO;
+    }
+
 }

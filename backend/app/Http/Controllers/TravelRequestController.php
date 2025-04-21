@@ -74,7 +74,7 @@ class TravelRequestController extends Controller
                 'travelRequest' => $travelRequest,
             ], ResponseAlias::HTTP_OK);
         } catch (AuthorizationException $e) {
-            
+
             return response([
                 'error' => 'Você não tem permissão para visualizar este pedido.',
             ], ResponseAlias::HTTP_FORBIDDEN);
@@ -87,5 +87,51 @@ class TravelRequestController extends Controller
         }
     }
 
-    
+    /**
+     * @param UpdateTravelRequestRequest $request
+     * @param TravelRequest $travelRequest
+     * @return Response
+     */
+    public function update(UpdateTravelRequestRequest $request, TravelRequest $travelRequest): Response
+    {
+        try {
+            Gate::authorize('update', $travelRequest);
+
+            return response([
+                'travelRequest' => $this->travelRequestRepository->update($request->validated(), $travelRequest),
+            ], ResponseAlias::HTTP_OK);
+        } catch (AuthorizationException $e) {
+
+            return response([
+                'error' => 'Você não tem permissão para atualizar este pedido.',
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        } catch (\Throwable $e) {
+            Log::error('Erro ao atualizar pedido: ' . $e->getMessage());
+
+            return response([
+                'error' => 'Erro ao atualizar pedido.',
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param ChangeStatusTravelRequest $request
+     * @param TravelRequest $travelRequest
+     * @return Response
+     */
+    public function changeStatus(ChangeStatusTravelRequest $request, TravelRequest $travelRequest): Response
+    {
+        try {
+
+            return response([
+                'travelRequest' => $this->travelRequestRepository->changeStatus($travelRequest, $request->input('status')),
+            ], ResponseAlias::HTTP_OK);
+        } catch (\Throwable $e) {
+            Log::error('Erro ao atualizar pedido: ' . $e->getMessage());
+
+            return response([
+                'error' => 'Erro ao atualizar pedido.',
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -48,5 +48,34 @@ class TravelRequestRepository
         ]);
     }
 
-    
+    /**
+     * @param array $data
+     * @param TravelRequest $travelRequest
+     * @return TravelRequest
+     */
+    public function update(array $data, TravelRequest $travelRequest): TravelRequest
+    {
+        $travelRequest->update([
+            'requester_name' => $data['requester_name'],
+            'destination' => $data['destination'],
+            'departure_date' => Carbon::parse($data['departure_date'])->format('Y-m-d'),
+            'return_date' => Carbon::parse($data['return_date'])->format('Y-m-d')
+        ]);
+
+        return $travelRequest;
+    }
+
+    /**
+     * @param TravelRequest $travelRequest
+     * @param int $status
+     * @return TravelRequest
+     */
+    public function changeStatus(TravelRequest $travelRequest, int $status): TravelRequest
+    {
+        $travelRequest->update([
+            'status' => $status
+        ]);
+
+        return $travelRequest;
+    }
 }

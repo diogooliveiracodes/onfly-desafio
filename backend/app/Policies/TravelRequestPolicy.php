@@ -11,4 +11,11 @@ class TravelRequestPolicy
     {
         return $user->isAdmin() || $user->id === $travelRequest->user_id;
     }
+
+    public function update(User $user, TravelRequest $travelRequest): bool
+    {
+        return
+            $user->id === $travelRequest->user_id
+            && !$travelRequest->isProcessed();
+    }
 }

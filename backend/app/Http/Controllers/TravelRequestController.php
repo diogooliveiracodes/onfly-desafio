@@ -41,5 +41,25 @@ class TravelRequestController extends Controller
         }
     }
 
-   
+    /**
+     * @param StoreTravelRequestRequest $request
+     * @return Response
+     */
+    public function store(StoreTravelRequestRequest $request): Response
+    {
+        try {
+
+            return response([
+                'travelRequests' => $this->travelRequestRepository->store($request->validated()),
+            ], ResponseAlias::HTTP_OK);
+        } catch (\Throwable $e) {
+            Log::error('Erro ao criar pedido: ' . $e->getMessage());
+
+            return response([
+                'error' => 'Erro ao criar pedido.',
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
 }

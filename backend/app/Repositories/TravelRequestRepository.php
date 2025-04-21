@@ -32,4 +32,21 @@ class TravelRequestRepository
             ->get();
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function store(array $data): TravelRequest
+    {
+        return $this->model->create([
+            'user_id' => Auth::id(),
+            'requester_name' => $data['requester_name'] ?? Auth::user()->name,
+            'destination' => $data['destination'],
+            'departure_date' => Carbon::parse($data['departure_date'])->format('Y-m-d'),
+            'return_date' => Carbon::parse($data['return_date'])->format('Y-m-d'),
+            'status' => TravelStatus::SOLICITADO,
+        ]);
+    }
+
+    
 }

@@ -6,10 +6,11 @@ use App\Models\TravelRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\StoreTravelRequest;
+use App\Http\Requests\SearchTravelRequest;
+use App\Http\Requests\UpdateTravelRequest;
 use App\Repositories\TravelRequestRepository;
 use App\Http\Requests\ChangeStatusTravelRequest;
-use App\Http\Requests\StoreTravelRequest;
-use App\Http\Requests\UpdateTravelRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -131,6 +132,26 @@ class TravelRequestController extends Controller
 
             return response([
                 'error' => 'Erro ao atualizar pedido.',
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param SearchTravelRequest $request
+     * @return Response
+     */
+    public function search(SearchTravelRequest $request): Response
+    {
+        try {
+            
+            return response([
+                'travelRequests' => $this->travelRequestRepository->search($request->validated()),
+            ], ResponseAlias::HTTP_OK);
+        } catch (\Throwable $e) {
+            Log::error('Erro ao buscar pedidos: ' . $e->getMessage());
+
+            return response([
+                'error' => 'Erro ao buscar pedidos.',
             ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

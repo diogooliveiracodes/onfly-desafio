@@ -13,14 +13,17 @@ use App\Repositories\TravelRequestRepository;
 use App\Http\Requests\ChangeStatusTravelRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use App\Repositories\TravelRequestNotificationRepository;
 
 class TravelRequestController extends Controller
 {
     /**
      * @param TravelRequestRepository $travelRequestRepository
+     * @param TravelRequestNotificationRepository $travelRequestNotificationRepository
      */
     public function __construct(
-        protected TravelRequestRepository $travelRequestRepository
+        protected TravelRequestRepository $travelRequestRepository,
+        protected TravelRequestNotificationRepository $travelRequestNotificationRepository
     ) {}
 
     /**
@@ -123,6 +126,12 @@ class TravelRequestController extends Controller
     public function changeStatus(ChangeStatusTravelRequest $request, TravelRequest $travelRequest): Response
     {
         try {
+            $this->travelRequestNotificationRepository->create([
+                'travel_request_id' => $travelRequest->id,
+                'user_id' => $travelRequest->user_id,
+                'old_status' => $travelRequest->getOriginal('status'),
+                'new_status' => $request->input('status'),
+            ]);
 
             return response([
                 'travelRequest' => $this->travelRequestRepository->changeStatus($travelRequest, $request->input('status')),
@@ -143,7 +152,7 @@ class TravelRequestController extends Controller
     public function search(SearchTravelRequest $request): Response
     {
         try {
-            
+
             return response([
                 'travelRequests' => $this->travelRequestRepository->search($request->validated()),
             ], ResponseAlias::HTTP_OK);

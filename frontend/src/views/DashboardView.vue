@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watchEffect } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useTravelRequestStore } from '@/stores/travelRequestStore'
 import TravelRequestTable from '@/components/TravelRequestTable.vue'
@@ -9,6 +9,7 @@ import NotificationMenu from '@/components/NotificationMenu.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 const travelRequestStore = useTravelRequestStore()
 const showModal = ref(false)
 const snackbar = ref(false)
@@ -20,6 +21,14 @@ const showSnackbar = (message: string, color: 'success' | 'error' = 'success') =
   snackbarColor.value = color
   snackbar.value = true
 }
+
+watchEffect(() => {
+  if (route.query.success) {
+    showSnackbar(route.query.success as string, 'success')
+  } else if (route.query.error) {
+    showSnackbar(route.query.error as string, 'error')
+  }
+})
 
 const handleSubmit = async (data: any) => {
   try {

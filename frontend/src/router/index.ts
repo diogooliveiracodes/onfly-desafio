@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
+import EditTravelRequest from '../views/EditTravelRequest.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -18,6 +19,12 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/edit-travel-request/:id',
+      name: 'edit-travel-request',
+      component: EditTravelRequest,
+      props: true
     }
   ]
 })

@@ -18,18 +18,22 @@ class TravelRequestRepository
      */
     public function listByUser(): Collection
     {
-        return $this->model->where('user_id', Auth::id())
-            ->select([
-                'id',
-                'requester_name',
-                'destination',
-                'departure_date',
-                'return_date',
-                'status',
-                'created_at',
-                'updated_at'
-            ])
-            ->get();
+        $query = $this->model->select([
+            'id',
+            'requester_name',
+            'destination',
+            'departure_date',
+            'return_date',
+            'status',
+            'created_at',
+            'updated_at',
+        ]);
+    
+        if (Auth::user()->role !== UserRoles::ADMIN->value) {
+            $query->where('user_id', Auth::id());
+        }
+    
+        return $query->orderByDesc('created_at')->get();
     }
 
     /**

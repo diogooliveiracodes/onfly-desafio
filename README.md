@@ -48,3 +48,27 @@ Para garantir que tudo esteja funcionando corretamente, rode os testes dentro do
 ```
 php artisan test --env=testing
 ```
+
+## 7. Remover o container temporário:
+```
+docker rm onfly-desafio-migrator
+````
+
+## 8. Instruções para a utilização do sistema:
+
+Dois usuários já foram criados no sistema: 
+- admin@example.com
+- customer@example.com
+- Senha (para ambos): password "password". 
+
+Para testar os dois perfis simultaneamente, recomenda-se utilizar navegadores diferentes ou uma janela anônima.
+
+O usuário do tipo Customer pode criar pedidos de viagem, enquanto apenas o usuário Admin tem permissão para aprovar ou cancelar esses pedidos.
+
+Após a aprovação ou o cancelamento de um pedido, o usuário Customer receberá uma notificação. Para simplificar o teste e evitar a configuração de serviços como Pusher ou outros sistemas de eventos em tempo real, foi implementado um mecanismo de consulta periódica ao servidor para simular notificações em tempo real.
+
+O sistema pode ser acessado através do endereço: http://localhost:3000
+
+Quando o usuário clica em uma notificação marcada como não lida, o sistema envia uma requisição para marcar a notificação como lida e atualiza automaticamente os dados exibidos na tabela.
+
+A funcionalidade de busca por período de tempo não estava especificada na interface do frontend, mas a rota foi implementada no backend. Os testes dessa funcionalidade estão disponíveis na collection do Postman, localizada na pasta /docs do projeto.

@@ -9,19 +9,9 @@ const auth = useAuthStore()
 const router = useRouter()
 const travelRequestStore = useTravelRequestStore()
 const statusFilter = ref('')
+const search = ref('')
 const loading = computed(() => travelRequestStore.loading)
 
-const requests = computed(() => {
-  if (!statusFilter.value) return travelRequestStore.travelRequests
-  const statusMap: Record<string, number> = {
-    'SOLICITADO': TravelRequestStatus.SOLICITADO,
-    'APROVADO': TravelRequestStatus.APROVADO,
-    'CANCELADO': TravelRequestStatus.CANCELADO
-  }
-  return travelRequestStore.travelRequests.filter(
-    req => req.status === statusMap[statusFilter.value]
-  )
-})
 const getStatusLabel = (status: number) => {
   const map: Record<number, string> = {
     [TravelRequestStatus.SOLICITADO]: 'SOLICITADO',
@@ -30,6 +20,21 @@ const getStatusLabel = (status: number) => {
   }
   return map[status] || `DESCONHECIDO (${status})`
 }
+
+const filteredRequests = computed(() => {
+  const statusMap: Record<string, number> = {
+    'SOLICITADO': TravelRequestStatus.SOLICITADO,
+    'APROVADO': TravelRequestStatus.APROVADO,
+    'CANCELADO': TravelRequestStatus.CANCELADO
+  }
+
+  return travelRequestStore.travelRequests.filter(req => {
+    const matchesStatus = !statusFilter.value || req.status === statusMap[statusFilter.value]
+    const matchesSearch = req.destination.toLowerCase().includes(search.value.toLowerCase())
+    return matchesStatus && matchesSearch
+  })
+})
+
 const emit = defineEmits(['update-status'])
 
 const handleUpdate = (id: number, status: number) => {
@@ -57,6 +62,7 @@ onMounted(() => {
   travelRequestStore.fetchRequests()
 })
 </script>
+
 <template>
   <div>
     <div v-if="loading" class="loading-overlay">
@@ -64,10 +70,18 @@ onMounted(() => {
       <div class="mt-2 text-subtitle-1">Carregando...</div>
     </div>
 
-    <v-select v-model="statusFilter" :items="['', 'SOLICITADO', 'APROVADO', 'CANCELADO']" label="Filtrar por status"
-      clearable density="compact" hide-details class="mb-4" />
+    <v-row class="mb-4" dense>
+      <v-col cols="12" md="6">
+        <v-select v-model="statusFilter" :items="['', 'SOLICITADO', 'APROVADO', 'CANCELADO']" label="Filtrar por status"
+          clearable density="compact" hide-details />
+      </v-col>
 
-    <v-data-table :items="requests" :loading="loading" :loading-text="' '" class="elevation-1"
+      <v-col cols="12" md="6">
+        <v-text-field v-model="search" label="Buscar por destino" clearable density="compact" hide-details />
+      </v-col>
+    </v-row>
+
+    <v-data-table :items="filteredRequests" :loading="loading" :loading-text="' '" class="elevation-1"
       :headers="computedHeaders">
       <template #item="{ item }">
         <tr>
@@ -96,8 +110,7 @@ onMounted(() => {
           </td>
           <td v-if="!auth.isAdmin">
             <v-btn color="primary" @click="handleEdit(item)" dense
-              :disabled="item.status !== TravelRequestStatus.SOLICITADO">
-              Editar
+              :disabled="item.status !== TravelRequestStatus.SOLICITADO"> Editar
             </v-btn>
           </td>
         </tr>

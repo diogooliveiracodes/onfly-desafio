@@ -40,27 +40,35 @@ const handleEdit = (item: any) => {
   router.push({ name: 'edit-travel-request', params: { id: item.id } })
 }
 
+const computedHeaders = computed(() => {
+  const base = [
+    { title: '#', key: 'id' },
+    ...(auth.isAdmin ? [{ title: 'Requerente', key: 'requester_name' }] : []),
+    { title: 'Destino', key: 'destination' },
+    { title: 'Data Partida', key: 'departure_date' },
+    { title: 'Data Retorno', key: 'return_date' },
+    { title: 'Status', key: 'status' },
+    { title: 'Ações', key: 'actions', sortable: false },
+  ]
+  return base
+})
+
 onMounted(() => {
   travelRequestStore.fetchRequests()
 })
 </script>
-
 <template>
   <div>
+    <div v-if="loading" class="loading-overlay">
+      <v-progress-circular indeterminate color="primary" size="50" />
+      <div class="mt-2 text-subtitle-1">Carregando...</div>
+    </div>
+
     <v-select v-model="statusFilter" :items="['', 'SOLICITADO', 'APROVADO', 'CANCELADO']" label="Filtrar por status"
       clearable density="compact" hide-details class="mb-4" />
-    <v-data-table :items="requests" :loading="loading" loading-text="Carregando...">
-      <template #headers>
-        <tr>
-          <th>#</th>
-          <th v-if="auth.isAdmin">Requerente</th>
-          <th>Destino</th>
-          <th>Data Partida</th>
-          <th>Data Retorno</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </template>
+
+    <v-data-table :items="requests" :loading="loading" :loading-text="' '" class="elevation-1"
+      :headers="computedHeaders">
       <template #item="{ item }">
         <tr>
           <td>{{ item.id }}</td>
@@ -87,7 +95,8 @@ onMounted(() => {
             </v-menu>
           </td>
           <td v-if="!auth.isAdmin">
-            <v-btn color="primary" @click="handleEdit(item)" dense :disabled="item.status !== TravelRequestStatus.SOLICITADO">
+            <v-btn color="primary" @click="handleEdit(item)" dense
+              :disabled="item.status !== TravelRequestStatus.SOLICITADO">
               Editar
             </v-btn>
           </td>
@@ -96,3 +105,19 @@ onMounted(() => {
     </v-data-table>
   </div>
 </template>
+
+<style scoped>
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+</style>

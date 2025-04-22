@@ -28,6 +28,9 @@ class AuthController extends Controller
 
         return response([
             'token' => $user->createToken($request->input('device_name'))->plainTextToken,
+            'userName' => $user->name,
+            'userEmail' => $user->email,
+            'userRole' => $user->role,
         ], ResponseAlias::HTTP_OK);
     }
 }

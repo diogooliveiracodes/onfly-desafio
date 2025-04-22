@@ -35,13 +35,12 @@ docker-compose up backend frontend -d
 ```
 - Nota: Os containers podem levar algum tempo para serem completamente inicializados. Durante esse processo, você pode verificar a conslusão ao acessar o frontend em localhost:3000 e o backend em localhost:8000. <br>
 
+## 5. Rodar os Testes
 
-## 5. Entre no container do projeto back-end
+Entre no container do projeto back-end
 ```
 docker exec -it onfly-desafio-backend bash
 ```
-
-## 6. Rodar os Testes
 
 Para garantir que tudo esteja funcionando corretamente, rode os testes dentro do container do projeto back-end:
 
@@ -49,12 +48,7 @@ Para garantir que tudo esteja funcionando corretamente, rode os testes dentro do
 php artisan test --env=testing
 ```
 
-## 7. Remover o container temporário:
-```
-docker rm onfly-desafio-migrator
-````
-
-## 8. Instruções para a utilização do sistema:
+# Instruções para a utilização do sistema:
 
 Dois usuários já foram criados no sistema: 
 - admin@example.com

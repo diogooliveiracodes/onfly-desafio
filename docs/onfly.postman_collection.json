@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "dc6a21b2-aeba-4629-a7b1-dba053562f60",
+		"name": "onfly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44259068",
+		"_collection_link": "https://diogo-2394529.postman.co/workspace/Diogo's-Workspace~d870c0fe-161e-4a54-88f6-1a3709d022b6/collection/44259068-dc6a21b2-aeba-4629-a7b1-dba053562f60?action=share&source=collection_link&creator=44259068"
+	},
+	"item": [
+		{
+			"name": "travelRequest",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|D9LnwHHE4KYPxctGjqGwE9meyq7FOPbvzNovoOmx104e81b1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "requester_name",
+									"value": "Diogo",
+									"type": "text"
+								},
+								{
+									"key": "destination",
+									"value": "Belo Horizonte",
+									"type": "text"
+								},
+								{
+									"key": "departure_date",
+									"value": "2025-02-13",
+									"type": "text"
+								},
+								{
+									"key": "return_date",
+									"value": "2025-02-13",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/api/travel-requests",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|D9LnwHHE4KYPxctGjqGwE9meyq7FOPbvzNovoOmx104e81b1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/travel-requests",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "11|f4fo1Nn9zl6xbcwSBxeLzBtBorRBeGjITqu2u0Ym70395dec",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/travel-requests/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "12|OuPHbDRN4gxeaCVPnrKQSjpVcfNwvs7VBcm7Edda9369e79b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "destination",
+									"value": "Belo Horizonte - MG a",
+									"type": "text"
+								},
+								{
+									"key": "requester_name",
+									"value": "Diogo Oliveira",
+									"type": "text"
+								},
+								{
+									"key": "departure_date",
+									"value": "21-04-2025",
+									"type": "text"
+								},
+								{
+									"key": "return_date",
+									"value": "30-04-2025",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/api/travel-requests/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "18|b6FVxLybpfJs7Wh9VeDpSCcEUETntYrMzAIKWQLTd3d91e43",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "status",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/api/travel-requests/change-status/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests",
+								"change-status",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "17|Ei1YOyrNvMPsWudNRZawfwkjdzxDnLiSMcmIGLUEdad1f8e0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "destination",
+									"value": "Belo Horizonte",
+									"type": "text"
+								},
+								{
+									"key": "start",
+									"value": "2021-02-02",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "end",
+									"value": "2026-02-06",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/api/travel-requests/search",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"travel-requests",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "travelRequestNotification",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "18|b6FVxLybpfJs7Wh9VeDpSCcEUETntYrMzAIKWQLTd3d91e43",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/notifications",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "18|b6FVxLybpfJs7Wh9VeDpSCcEUETntYrMzAIKWQLTd3d91e43",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/notifications/read/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"notifications",
+								"read",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "admin@example.com\n",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "device_name",
+							"value": "postman",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

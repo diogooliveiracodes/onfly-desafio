@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTravelRequestStore } from '@/stores/travelRequestStore'
 import { TravelRequestStatus } from '@/enums/TravelRequestStatus'
 import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
+const router = useRouter()
 const travelRequestStore = useTravelRequestStore()
 const statusFilter = ref('')
 const loading = computed(() => travelRequestStore.loading)
@@ -20,7 +22,6 @@ const requests = computed(() => {
     req => req.status === statusMap[statusFilter.value]
   )
 })
-
 const getStatusLabel = (status: number) => {
   const map: Record<number, string> = {
     [TravelRequestStatus.SOLICITADO]: 'SOLICITADO',
@@ -29,11 +30,14 @@ const getStatusLabel = (status: number) => {
   }
   return map[status] || `DESCONHECIDO (${status})`
 }
-
 const emit = defineEmits(['update-status'])
 
 const handleUpdate = (id: number, status: number) => {
   emit('update-status', id, status)
+}
+
+const handleEdit = (item: any) => {
+  router.push({ name: 'edit-travel-request', params: { id: item.id } })
 }
 
 onMounted(() => {
@@ -54,7 +58,7 @@ onMounted(() => {
           <th>Data Partida</th>
           <th>Data Retorno</th>
           <th>Status</th>
-          <th v-if="auth.isAdmin">Ações</th>
+          <th>Ações</th>
         </tr>
       </template>
       <template #item="{ item }">
@@ -81,6 +85,11 @@ onMounted(() => {
                 </v-list-item>
               </v-list>
             </v-menu>
+          </td>
+          <td v-if="!auth.isAdmin">
+            <v-btn color="primary" @click="handleEdit(item)" dense :disabled="item.status !== TravelRequestStatus.SOLICITADO">
+              Editar
+            </v-btn>
           </td>
         </tr>
       </template>

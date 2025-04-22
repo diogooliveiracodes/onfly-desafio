@@ -14,7 +14,7 @@ git clone https://github.com/diogooliveiracodes/onfly-desafio.git
 ## 2. Abra a pasta do projeto
 
 ```
-cd cd onfly-desafio
+cd onfly-desafio
 ```
 
 ## 3. Provisionar o sistema

@@ -26,5 +26,10 @@ export const useTravelRequestStore = defineStore('travelRequest', () => {
     await fetchRequests()
   }
 
-  return { travelRequests, loading, fetchRequests, createRequest, updateStatus }
+  const updateRequest = async (id: number, updatedData: any) => {
+    await travelRequestService.update(id, updatedData)
+    await fetchRequests()
+  }
+
+  return { travelRequests, loading, fetchRequests, createRequest, updateStatus, updateRequest }
 })

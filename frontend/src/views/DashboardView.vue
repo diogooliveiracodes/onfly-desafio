@@ -64,7 +64,7 @@ const handleLogout = async () => {
 
     <v-main>
       <v-container class="mt-5">
-        <v-row class="d-flex justify-end mb-4">
+        <v-row class="d-flex justify-end mb-4" v-if="!auth.isAdmin">
           <v-col cols="auto">
             <v-btn color="primary" @click="showModal = true" dense> Novo Pedido </v-btn>
           </v-col>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import { useTravelRequestStore } from '@/stores/travelRequestStore'
-import { UserRoles } from '@/enums/UserRoles'
 import { TravelRequestStatus } from '@/enums/TravelRequestStatus'
+import { useAuthStore } from '@/stores/auth'
 
+const auth = useAuthStore()
 const travelRequestStore = useTravelRequestStore()
 const statusFilter = ref('')
 const loading = computed(() => travelRequestStore.loading)
@@ -35,11 +36,6 @@ const handleUpdate = (id: number, status: number) => {
   emit('update-status', id, status)
 }
 
-const canUpdateStatus = computed(() => {
-  const userRole = localStorage.getItem('userRole')
-  return userRole === UserRoles.ADMIN
-})
-
 onMounted(() => {
   travelRequestStore.fetchRequests()
 })
@@ -53,23 +49,23 @@ onMounted(() => {
       <template #headers>
         <tr>
           <th>#</th>
-          <th v-if="canUpdateStatus">Requerente</th>
+          <th v-if="auth.isAdmin">Requerente</th>
           <th>Destino</th>
           <th>Data Partida</th>
           <th>Data Retorno</th>
           <th>Status</th>
-          <th v-if="canUpdateStatus">Ações</th>
+          <th v-if="auth.isAdmin">Ações</th>
         </tr>
       </template>
       <template #item="{ item }">
         <tr>
           <td>{{ item.id }}</td>
-          <td v-if="canUpdateStatus">{{ item.requester_name }}</td>
+          <td v-if="auth.isAdmin">{{ item.requester_name }}</td>
           <td>{{ item.destination }}</td>
           <td>{{ item.departure_date }}</td>
           <td>{{ item.return_date }}</td>
           <td>{{ getStatusLabel(item.status) }}</td>
-          <td v-if="canUpdateStatus">
+          <td v-if="auth.isAdmin">
             <v-menu>
               <template #activator="{ props }">
                 <v-btn v-bind="props" icon>

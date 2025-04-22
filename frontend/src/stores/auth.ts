@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { UserRoles } from '@/enums/UserRoles'
 
 interface AuthState {
     token: string | null
@@ -17,6 +18,10 @@ export const useAuthStore = defineStore('auth', {
     },
 
     persist: true,
+
+    getters: {
+        isAdmin: (state) => state.role == UserRoles.ADMIN
+      },
 
     actions: {
         initialize() {

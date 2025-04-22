@@ -59,7 +59,7 @@ docker rm onfly-desafio-migrator
 Dois usuários já foram criados no sistema: 
 - admin@example.com
 - customer@example.com
-- Senha (para ambos): password "password". 
+- Senha (para ambos): password 
 
 Para testar os dois perfis simultaneamente, recomenda-se utilizar navegadores diferentes ou uma janela anônima.
 

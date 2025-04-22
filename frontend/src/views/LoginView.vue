@@ -12,26 +12,10 @@
           <v-card-title class="text-h5 justify-center">Login</v-card-title>
           <v-card-text>
             <v-form ref="loginForm" v-model="formIsValid" @submit.prevent="handleLogin">
-              <v-text-field
-                v-model="email"
-                label="Email"
-                type="email"
-                outlined
-                dense
-                :rules="emailRules"
-                required
-                class="mb-4"
-              />
-              <v-text-field
-                v-model="password"
-                label="Senha"
-                type="password"
-                outlined
-                dense
-                :rules="passwordRules"
-                required
-                class="mb-4"
-              />
+              <v-text-field v-model="email" label="Email" type="email" outlined dense :rules="emailRules" required
+                class="mb-4" />
+              <v-text-field v-model="password" label="Senha" type="password" outlined dense :rules="passwordRules"
+                required class="mb-4" />
               <v-btn type="submit" color="primary" block class="mt-4">Entrar</v-btn>
             </v-form>
           </v-card-text>

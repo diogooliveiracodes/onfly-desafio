@@ -10,13 +10,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['middleware' => 'admin'], function () {
-        Route::put('/travel-requests/change-status/{travelRequest}', [TravelRequestController::class, 'changeStatus']);
+        Route::put('/travel-requests/change-status/{travelRequest}', [TravelRequestController::class, 'changeStatus'])
+            ->name('travel-requests.changeStatus');
     });
-    Route::post('/travel-requests/search', [TravelRequestController::class, 'search']);
+    Route::post('/travel-requests/search', [TravelRequestController::class, 'search'])->name('travel-requests.search');
     Route::apiResource('travel-requests', TravelRequestController::class);
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
 
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('/', [TravelRequestNotificationController::class, 'index']);

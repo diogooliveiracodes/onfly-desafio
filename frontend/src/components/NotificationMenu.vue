@@ -59,7 +59,7 @@ onMounted(() => {
               <v-icon v-if="!n.read_at" color="red" size="small" class="mr-1">
                 mdi-alert-circle
               </v-icon>
-              O Pedido #{{ n.id }} teve o status atualizado para {{ getStatusLabel(n.new_status) }}
+              O Pedido #{{ n.travel_request_id }} teve o status atualizado para {{ getStatusLabel(n.new_status) }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

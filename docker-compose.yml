@@ -15,6 +15,7 @@ services:
 
     backend:
         build: ./backend
+        container_name: onfly-desafio-backend
         working_dir: /application
         volumes:
             - './backend:/application'

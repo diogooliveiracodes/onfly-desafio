@@ -26,11 +26,12 @@ const select = async (notification: any) => {
 
 let intervalId: ReturnType<typeof setInterval>
 
+// Futura implementação do Pusher
 onMounted(() => {
   notificationStore.fetchNotifications()
   intervalId = setInterval(() => {
     notificationStore.fetchNotifications()
-  }, 5000)
+  }, 10000)
 })
 
 </script>

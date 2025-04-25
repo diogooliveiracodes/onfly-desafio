@@ -1,4 +1,7 @@
 # Guia de Instalação
+Os requisitos do desafio estão especificados no arquivo DESAFIO.md.
+
+
 Siga os passos abaixo para configurar o projeto no seu ambiente local.
 Verifique se as portas configuradas para este projeto estão liberadas em sua máquina:
 - 3307 -> mysql
